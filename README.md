@@ -104,7 +104,19 @@ write.csv(subset(deg_G2vsG3, log2FoldChange > 1), file = "Up_DEG_G2_vs_G3_strict
 write.csv(subset(deg_G2vsG3, log2FoldChange < -1), file = "Down_DEG_G2_vs_G3_strict.csv")
 ```
 
+### Here you can check out the files we created. 
+(DEG_G2_vs_G1_strict.csv)
+(DEG_G2_vs_G3_strict.csv)
+(DEG_G3_vs_G1_strict.csv)
+(Down_DEG_G2_vs_G1_strict.csv)
+(Down_DEG_G2_vs_G3_strict.csv)
+(Down_DEG_G3_vs_G1_strict.csv)
+(Up_DEG_G2_vs_G1_strict.csv)
+(Up_DEG_G2_vs_G3_strict.csv)
+(Up_DEG_G3_vs_G1_strict.csv)
+
 ## 10. Load DEGs.
+For this example, we will use the "Up_DEG_G2_vs_G1_strict.csv" file. However, you can repeat the protocol with all the comparisons you want. 
 ```r
 diff_genes <- read_delim("Up_DEG_G2_vs_G1_strict.csv", delim = ",")
 colnames(diff_genes)[1] <- "ID"       # Rename first column
@@ -157,13 +169,13 @@ sum(ora_GOs@result$p.adjust < 0.05)
 ```r
 dotplot(ora_GOs, showCategory = 10)
 ```
-
+![dotplot](dotplot_G2vsG1.png)
 
 ### Barplot of the 10 most significant GOs of Group_2 vs Group_1.
 ```r
 barplot(ora_GOs, showCategory = 10)
 ```
-
+![barplot](barplot_G2vsG1.png)
 
 ### Enrichment map of Group_2 vs Group_1
 ```r

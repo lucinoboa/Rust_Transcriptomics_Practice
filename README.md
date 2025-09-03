@@ -105,15 +105,23 @@ write.csv(subset(deg_G2vsG3, log2FoldChange < -1), file = "Down_DEG_G2_vs_G3_str
 ```
 
 ### Here you can check out the files we created. 
-(DEG_G2_vs_G1_strict.csv)
-(DEG_G2_vs_G3_strict.csv)
-(DEG_G3_vs_G1_strict.csv)
-(Down_DEG_G2_vs_G1_strict.csv)
-(Down_DEG_G2_vs_G3_strict.csv)
-(Down_DEG_G3_vs_G1_strict.csv)
-(Up_DEG_G2_vs_G1_strict.csv)
-(Up_DEG_G2_vs_G3_strict.csv)
-(Up_DEG_G3_vs_G1_strict.csv)
+[DEG_G2_vs_G1_strict.csv](DEG_G2_vs_G1_strict.csv)
+
+[DEG_G2_vs_G3_strict.csv](DEG_G2_vs_G3_strict.csv)
+
+[DEG_G3_vs_G1_strict.csv](DEG_G3_vs_G1_strict.csv)
+
+[Down_DEG_G2_vs_G1_strict.csv](Down_DEG_G2_vs_G1_strict.csv)
+
+[Down_DEG_G2_vs_G3_strict.csv](Down_DEG_G2_vs_G3_strict.csv)
+
+[Down_DEG_G3_vs_G1_strict.csv](Down_DEG_G3_vs_G1_strict.csv)
+
+[Up_DEG_G2_vs_G1_strict.csv](Up_DEG_G2_vs_G1_strict.csv)
+
+[Up_DEG_G2_vs_G3_strict.csv](Up_DEG_G2_vs_G3_strict.csv)
+
+[Up_DEG_G3_vs_G1_strict.csv](Up_DEG_G3_vs_G1_strict.csv)
 
 ## 10. Load DEGs.
 For this example, we will use the "Up_DEG_G2_vs_G1_strict.csv" file. However, you can repeat the protocol with all the comparisons you want. 

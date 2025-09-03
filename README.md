@@ -286,3 +286,83 @@ print(summary_table, n=21)
 20 Nuclear structure                                                  37     0     1
 21 Extracellular structures                                            8     0     0
 ```
+
+# Now you can repeat the protocol with other datasets. 
+
+## Example: Group_2 vs Group_1 Down-regulated Genes. 
+```r
+# 1. Prepare the DEGs
+deg_down_ID <- rownames(deg_down)  # vector de IDs
+
+# 2. Run GO enrichment
+ora_GOs_down <- enricher(
+  gene = deg_down_ID,
+  universe = all_genes,
+  pAdjustMethod = "BH",
+  qvalueCutoff = 0.05,
+  TERM2GENE = term2gene,
+  TERM2NAME = term2name
+)
+
+# 3. Results
+sum(ora_GOs_down@result$p.adjust < 0.05)
+
+# 4. Dotplot and Barplot
+dotplot(ora_GOs_down, showCategory = 10, title="G2 vs G1 Downregulated Genes")
+barplot(ora_GOs_down, showCategory = 10, title="G2 vs G1 Downregulated Genes")
+
+# 5. Enrichment map (only if terms are connected)
+ora_GOs_down <- pairwise_termsim(ora_GOs_down, method = "JC")
+emapplot(ora_GOs_down, color = "qvalue", showCategory = 15)
+
+# 6. Annotate with COG
+deg_down_annot2 <- deg_down %>%
+  as_tibble(rownames = "ID") %>%
+  left_join(dplyr::select(annotation, ID, COG_category, COG_name), by="ID")
+
+# 7. Summarize functional categories
+down_summary2 <- deg_down_annot2 %>%
+  filter(!is.na(COG_name)) %>%
+  group_by(COG_name) %>%
+  summarise(Down = n_distinct(ID))
+
+# 8. Merge with universe and upregulated summary if needed
+summary_table_down <- universe_summary %>%
+  full_join(down_summary2, by="COG_name") %>%
+  replace(is.na(.), 0) %>%
+  arrange(desc(Universe))
+
+# 9. Export table
+write_csv(summary_table_down, "Summary_COG_categories_G2_vs_G1_down.csv")
+print(summary_table_down, n=21)
+```
+![barplot](dotplot_G2vsG1.png)
+![dotplot](dotplot_G2vsG1.png)
+
+```r
+> print(summary_table_down, n=21)
+# A tibble: 21 × 3
+   COG_name                                                     Universe  Down
+   <chr>                                                           <int> <int>
+ 1 Function unknown                                                24088  1023
+ 2 Signal transduction mechanisms                                   7463   367
+ 3 Transcription                                                    5470   159
+ 4 Replication, recombination and repair                            5250    55
+ 5 Posttranslational modification, protein turnover, chaperones     5051   269
+ 6 Carbohydrate transport and metabolism                            3032   170
+ 7 Secondary metabolites biosynthesis, transport and catabolism     2699   195
+ 8 Translation, ribosomal structure and biogenesis                  2421   129
+ 9 Amino acid transport and metabolism                              2311    95
+10 Intracellular trafficking, secretion, vesicular transport        1974    52
+11 Lipid transport and metabolism                                   1749    56
+12 Inorganic ion transport and metabolism                           1601    99
+13 Energy production and conversion                                 1538   132
+14 Cell cycle control, cell division, chromosome partitioning        978    12
+15 Coenzyme transport and metabolism                                 886    63
+16 Cytoskeleton                                                      739    15
+17 Nucleotide transport and metabolism                               676    30
+18 Defense mechanisms                                                660    49
+19 Cell wall/membrane/envelope biogenesis                            549    39
+20 Nuclear structure                                                  37     1
+21 Extracellular structures                                            8     0
+```
